@@ -6,8 +6,10 @@ find_package(gf COMPONENTS graphics REQUIRED)
 
 add_executable(game-flo
   src/local/GameHub.cc
+  src/local/LevelScene.cc
   src/local/MenuEntity.cc
   src/local/MenuScene.cc
+  src/local/PlayerEntity.cc
   src/main.cc
 )
 
@@ -23,7 +25,7 @@ target_link_libraries(game-flo
 
 target_compile_features(game-flo
   PUBLIC
-    cxx_std_17
+    cxx_std_14
 )
 
 set_target_properties(game-flo

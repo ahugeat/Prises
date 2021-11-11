@@ -38,7 +38,7 @@ namespace flo {
       case MenuChoice::None:
         break;
       case MenuChoice::Start:
-        // Loading next scene...
+        m_game.replaceScene(m_game.level);
         break;
       case MenuChoice::Quit:
         m_game.popScene();
