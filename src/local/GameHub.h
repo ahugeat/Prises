@@ -3,12 +3,15 @@
 
 #include <gf/GameManager.h>
 
-#include "MenuScene.h"
+#include "GameModel.h"
 #include "LevelScene.h"
+#include "MenuScene.h"
 
 namespace flo {
   struct GameHub : gf::GameManager {
     GameHub();
+
+    GameModel model;
 
     MenuScene menu;
     LevelScene level;

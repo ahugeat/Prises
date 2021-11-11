@@ -6,9 +6,11 @@
 #include <gf/Vector.h>
 
 namespace flo {
+  struct GameModel;
+
   class PlayerEntity: public gf::Entity {
   public:
-    PlayerEntity();
+    PlayerEntity(GameModel& model);
 
     virtual void update(gf::Time time) override;
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;

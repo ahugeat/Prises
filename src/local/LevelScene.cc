@@ -12,7 +12,10 @@ namespace flo {
   , m_moveUp("Move up")
   , m_moveDown("Move down")
   , m_moveLeft("Move left")
-  , m_moveRight("Move right") {
+  , m_moveRight("Move right")
+  , m_map(game.model)
+  , m_player(game.model) {
+    addWorldEntity(m_map);
     addWorldEntity(m_player);
 
     auto registerMoveAction = [this](gf::Action& action, std::initializer_list<gf::Scancode> scancodes) {
@@ -29,8 +32,9 @@ namespace flo {
     registerMoveAction(m_moveLeft, { gf::Scancode::A, gf::Scancode::Left });
     registerMoveAction(m_moveRight, { gf::Scancode::D, gf::Scancode::Right });
 
-    setWorldViewSize(GameModel::WorldSize);
-    setWorldViewCenter(GameModel::WorldSize / 2);
+    gf::Vector2f viewSize = game.model.levels[game.model.currentLevel].size * GameModel::TileSize;
+    setWorldViewSize(viewSize);
+    setWorldViewCenter(viewSize / 2);
   }
 
   void LevelScene::doHandleActions(gf::Window& window) {

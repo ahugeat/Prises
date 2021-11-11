@@ -4,6 +4,7 @@
 #include <gf/Action.h>
 #include <gf/Scene.h>
 
+#include "MapEntity.h"
 #include "PlayerEntity.h"
 
 namespace flo {
@@ -23,6 +24,7 @@ namespace flo {
     gf::Action m_moveLeft;
     gf::Action m_moveRight;
 
+    MapEntity m_map;
     PlayerEntity m_player;
   };
 }

@@ -12,14 +12,13 @@ namespace {
 }
 
 namespace flo {
-  PlayerEntity::PlayerEntity()
-  : m_position(GameModel::WorldSize / 2) {
+  PlayerEntity::PlayerEntity(GameModel& model)
+  : m_position(model.levels[model.currentLevel].size * GameModel::TileSize / 2)
+  , m_direction(0.0f) {
 
   }
 
   void PlayerEntity::update(gf::Time time) {
-    gf::Log::debug("Direction: %f;%f\n", m_direction.x, m_direction.y);
-
     // Move the player
     m_position += m_direction * PlayerVelocity * time.asSeconds();
 
@@ -29,7 +28,7 @@ namespace flo {
 
   void PlayerEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     gf::CircleShape player;
-    player.setRadius(60.0f);
+    player.setRadius(GameModel::TileSize.width / 2);
     player.setColor(gf::Color::Blue);
     player.setAnchor(gf::Anchor::Center);
     player.setPosition(m_position);

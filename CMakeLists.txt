@@ -6,7 +6,9 @@ find_package(gf COMPONENTS graphics REQUIRED)
 
 add_executable(game-flo
   src/local/GameHub.cc
+  src/local/GameModel.cc
   src/local/LevelScene.cc
+  src/local/MapEntity.cc
   src/local/MenuEntity.cc
   src/local/MenuScene.cc
   src/local/PlayerEntity.cc
