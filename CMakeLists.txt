@@ -6,6 +6,7 @@ find_package(gf COMPONENTS graphics REQUIRED)
 
 add_executable(game-flo
   src/local/GameHub.cc
+  src/local/MenuEntity.cc
   src/local/MenuScene.cc
   src/main.cc
 )
@@ -31,11 +32,11 @@ set_target_properties(game-flo
 )
 
 include(GNUInstallDirs)
-set(GAME_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/games/${PROJECT_NAME_EXE}")
+set(GAME_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/games/game-flo")
 set(GAME_SOURCE_DATA_DIR ".")
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-  set(GAME_SOURCE_DATA_DIR "${CMAKE_SOURCE_DIR}/data/${PROJECT_NAME_EXE}") # To avoid to doing make install
+  set(GAME_SOURCE_DATA_DIR "${CMAKE_SOURCE_DIR}/data/game-flo") # To avoid to doing make install
 
   target_compile_options(game-flo
     PRIVATE
