@@ -10,7 +10,34 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      # Install gf via vcpkg
+      - uses: actions/checkout@v2
+      with:
+        repository: Microsoft/vcpkg
+        path: vcpkg
+
+      - name: Build gf
+        working-directory: ${{github.workspace}}/vcpkg
+        run: |
+          .\bootstrap-vcpkg.bat
+          .\vcpkg.exe gamedev-framework:x64-windows
+
+      # Prises build
+      - uses: actions/checkout@v2
+        with:
+          path: prises
+
+      - name: Configure Prises
+        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+      - name: Build Prises
+        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+
+  build-linux:
     runs-on: ubuntu-latest
 
     steps:
