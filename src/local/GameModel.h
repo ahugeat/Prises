@@ -2,6 +2,7 @@
 #define LOCAL_GAME_MODEL_H_
 
 #include <string>
+#include <vector>
 
 #include <gf/Vector.h>
 #include <gf/VectorOps.h>
