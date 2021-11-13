@@ -17,7 +17,7 @@ namespace flo {
     for (int row = 0; row < levelModel.size.row; ++row) {
       for (int col = 0; col < levelModel.size.col; ++col) {
         // Draw wall
-        if (levelModel.tiles[row][col] == TileType::Wall) {
+        if (levelModel.tileAt(col, row) == TileType::Wall) {
           gf::RectangleShape rect;
           rect.setSize(GameModel::TileSize);
           rect.setColor(gf::Color::Red);

@@ -3,21 +3,21 @@
 #include <cassert>
 
 namespace flo {
-  LevelModel::LevelModel(std::initializer_list<std::string> tilesList) {
-    size = gf::vec(tilesList.begin()->size(), tilesList.size());
-
+  LevelModel::LevelModel(std::initializer_list<std::string> tilesList)
+  : size(gf::vec(tilesList.begin()->size(), tilesList.size())) {
     assert(size.row < size.col);
 
-    tiles.resize(size.row);
-    auto it = tilesList.begin();
-    for (int row = 0; row < size.row; ++row, ++it) {
-      assert(it != tilesList.end());
-
-      tiles[row].resize(size.col);
-      for (int col = 0; col < size.col; ++col) {
-        tiles[row][col] = static_cast<TileType>((*it)[col]);
+    for (const auto& row: tilesList) {
+      for (std::size_t i = 0; i < row.size(); ++i) {
+        tiles.push_back(static_cast<TileType>(row[i]));
       }
     }
+
+    assert(static_cast<int>(tiles.size()) == size.row * size.col);
+  }
+
+  const TileType& LevelModel::tileAt(int col, int row) const {
+    return tiles.at(row * size.col + col);
   }
 
   GameModel::GameModel() {
@@ -26,7 +26,7 @@ namespace flo {
       {
         "##########",
         "#        #",
-        "#        #",
+        "#  #     #",
         "#        #",
         "##########",
       }

@@ -18,6 +18,8 @@ namespace flo {
     void move(gf::Direction direction);
 
   private:
+    GameModel& m_model;
+
     gf::Vector2f m_position;
     gf::Vector2f m_direction;
   };
