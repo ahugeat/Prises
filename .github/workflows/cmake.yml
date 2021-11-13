@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - working-directory: ${{github.workspace}}/prises
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+      path: prises
 
     - name: Configure CMake
       run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
