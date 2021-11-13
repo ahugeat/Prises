@@ -20,7 +20,14 @@ jobs:
           repository: Microsoft/vcpkg
           path: vcpkg
 
+      - name: vcpkg cache
+        uses: actions/cache@v2.1.6
+          id: cache-vcpk
+          with: vcpkg
+          key: ${{ runner.os }}-primes
+
       - name: Build gf
+        if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         working-directory: ${{github.workspace}}/vcpkg
         run: |
           .\bootstrap-vcpkg.bat
