@@ -32,7 +32,7 @@ jobs:
           path: prises
 
       - name: Configure Prises
-        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -G "Ninja" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
       - name: Build Prises
         run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
