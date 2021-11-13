@@ -14,12 +14,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Dependencies
+    - name: Install dependency
+      run: sudo apt install -y libsdl2-dev libboost-dev libfreetype6-dev zlib1g-dev libpugixml-dev
+
+    # gf build
+    - uses: actions/checkout@v2
+      with:
+        repository: GamedevFramework/gf
+        submodules: recursive
+        path: gf
+
+    - name: Configure gf
+      run: cmake -DGF_BUILD_GAMES=OFF -DGF_BUILD_EXAMPLES=OFF -DGF_BUILD_DOCUMENTATION=OFF -DGF_SINGLE_COMPILTATION_UNIT=OFF -DGF_DEBUG=OFF -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/gf/build/install -S \${{github.workspace}}/gf/ -B ${{github.workspace}}/gf/build
+
+    - name: Build gf
+      run: cmake --build ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}}
+
+    - name: Install gf
+      run: cmake --install ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --strip
+
+    # Prises build
     - uses: actions/checkout@v2
       with:
         path: prises
 
-    - name: Configure CMake
-      run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Configure Prises
+      run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_ROOT=${{github.workspace}}/gf/build/install
 
-    - name: Build
+    - name: Build Prises
       run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}}
