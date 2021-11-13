@@ -14,8 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clone Prises sources
-      working-directory: ${{github.workspace}}/prises
+    - working-directory: ${{github.workspace}}/prises
       uses: actions/checkout@v2
 
     - name: Configure CMake
