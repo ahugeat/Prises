@@ -7,7 +7,7 @@
 
 namespace flo {
   LevelScene::LevelScene(GameHub& game)
-  : gf::Scene(GameModel::WorldSize)
+  : gf::Scene(game.model.getCurrentLevel().size * GameModel::TileSize)
   , m_game(game)
   , m_moveUp("Move up")
   , m_moveDown("Move down")
@@ -15,9 +15,11 @@ namespace flo {
   , m_moveRight("Move right")
   , m_map(game.model)
   , m_player(game.model) {
+    // Entities
     addWorldEntity(m_map);
     addWorldEntity(m_player);
 
+    // Actions
     auto registerMoveAction = [this](gf::Action& action, std::initializer_list<gf::Scancode> scancodes) {
       action.setContinuous();
       for (auto scancode: scancodes) {
@@ -26,13 +28,13 @@ namespace flo {
       addAction(action);
     };
 
-    // Actions
     registerMoveAction(m_moveUp, { gf::Scancode::W, gf::Scancode::Up });
     registerMoveAction(m_moveDown, { gf::Scancode::S, gf::Scancode::Down });
     registerMoveAction(m_moveLeft, { gf::Scancode::A, gf::Scancode::Left });
     registerMoveAction(m_moveRight, { gf::Scancode::D, gf::Scancode::Right });
 
-    gf::Vector2f viewSize = game.model.levels[game.model.currentLevel].size * GameModel::TileSize;
+    // Views
+    gf::Vector2f viewSize = game.model.getCurrentLevel().size * GameModel::TileSize;
     setWorldViewSize(viewSize);
     setWorldViewCenter(viewSize / 2);
   }
@@ -52,5 +54,12 @@ namespace flo {
     if (m_moveRight.isActive()) {
       m_player.move(gf::Direction::Right);
     }
+  }
+
+  void LevelScene::loadNextLevel() {
+    ++m_game.model.currentLevel;
+    auto level = m_game.model.getCurrentLevel();
+
+    setFramebufferSize(level.size * GameModel::TileSize);
   }
 }

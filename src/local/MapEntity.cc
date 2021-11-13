@@ -13,7 +13,7 @@ namespace flo {
   }
 
   void MapEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    const LevelModel& levelModel = m_model.levels[m_model.currentLevel];
+    const LevelModel& levelModel = m_model.getCurrentLevel();
     for (int row = 0; row < levelModel.size.row; ++row) {
       for (int col = 0; col < levelModel.size.col; ++col) {
         // Draw wall

@@ -1,6 +1,7 @@
 #include "GameModel.h"
 
 #include <cassert>
+#include <stdexcept>
 
 namespace flo {
   LevelModel::LevelModel(std::initializer_list<std::string> tilesList)
@@ -31,6 +32,14 @@ namespace flo {
         "##########",
       }
     };
+  }
+
+  const LevelModel& GameModel::getCurrentLevel() const {
+    if (currentLevel < 0 || currentLevel >= static_cast<int>(levels.size())) {
+      throw std::runtime_error("[LevelModel] invalid level: " + std::to_string(currentLevel));
+    }
+
+    return levels[currentLevel];
   }
 
 }

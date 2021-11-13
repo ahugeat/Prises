@@ -28,6 +28,8 @@ namespace flo {
 
     GameModel();
 
+    const LevelModel& getCurrentLevel() const;
+
     int currentLevel;
     std::vector<LevelModel> levels;
   };

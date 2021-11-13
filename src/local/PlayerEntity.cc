@@ -15,7 +15,7 @@ namespace {
 namespace flo {
   PlayerEntity::PlayerEntity(GameModel& model)
   : m_model(model)
-  , m_position(model.levels[model.currentLevel].size * GameModel::TileSize / 2)
+  , m_position(model.getCurrentLevel().size * GameModel::TileSize / 2)
   , m_direction(0.0f) {
 
   }
@@ -24,7 +24,7 @@ namespace flo {
     // Compute the next position
     gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
 
-    const LevelModel& currentLevel = m_model.levels[m_model.currentLevel];
+    const LevelModel& currentLevel = m_model.getCurrentLevel();
 
     // Check collision with all tiles
     // TODO: inefficient, just checks tiles around

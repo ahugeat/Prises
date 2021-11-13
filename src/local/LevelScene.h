@@ -14,7 +14,10 @@ namespace flo {
   public:
     LevelScene(GameHub& game);
 
+  private:
     virtual void doHandleActions(gf::Window& window) override;
+
+    void loadNextLevel();
 
   private:
     GameHub& m_game;
