@@ -25,7 +25,7 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: vcpkg
-          key: ${{ runner.os }}-primes
+          key: ${{ runner.os }}-vcpkg
 
       - name: Build gf
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
