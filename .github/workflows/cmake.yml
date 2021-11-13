@@ -24,7 +24,7 @@ jobs:
         working-directory: ${{github.workspace}}/vcpkg
         run: |
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe gamedev-framework:x64-windows
+          .\vcpkg.exe install gamedev-framework:x64-windows
 
       # Prises build
       - uses: actions/checkout@v2
