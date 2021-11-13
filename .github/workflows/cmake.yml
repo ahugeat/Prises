@@ -21,9 +21,10 @@ jobs:
           path: vcpkg
 
       - name: vcpkg cache
+        id: cache-vcpkg
         uses: actions/cache@v2.1.6
-        with: vcpkg
-          id: cache-vcpkg
+        with:
+          path: vcpkg
           key: ${{ runner.os }}-primes
 
       - name: Build gf
