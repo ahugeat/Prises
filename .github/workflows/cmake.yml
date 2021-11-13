@@ -18,8 +18,6 @@ jobs:
     - name: Install dependency
       run: |
       sudo apt update
-      sudo apt upgrade
-      sudo apt dist-upgrade
       sudo apt install -y libsdl2-dev libboost-dev libfreetype6-dev zlib1g-dev libpugixml-dev
 
     # gf build
