@@ -17,8 +17,8 @@ jobs:
     # Dependencies
     - name: Install dependency
       run: |
-      sudo apt update
-      sudo apt upgrade
+        sudo apt update
+        sudo apt upgrade
 
     # gf build
     - uses: actions/checkout@v2
