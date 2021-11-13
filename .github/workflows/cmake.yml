@@ -15,7 +15,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      path: prises
+      with:
+        path: prises
 
     - name: Configure CMake
       run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
