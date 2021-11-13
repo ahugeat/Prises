@@ -16,9 +16,9 @@ jobs:
     steps:
       # Install gf via vcpkg
       - uses: actions/checkout@v2
-      with:
-        repository: Microsoft/vcpkg
-        path: vcpkg
+        with:
+          repository: Microsoft/vcpkg
+          path: vcpkg
 
       - name: Build gf
         working-directory: ${{github.workspace}}/vcpkg
