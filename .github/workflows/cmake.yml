@@ -14,10 +14,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Setup ninja
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
-
       # Install gf via vcpkg
       - name: vcpkg cache
         id: cache-vcpkg
@@ -44,15 +40,11 @@ jobs:
         with:
           path: prises
 
+      - name: Configure Prises
+      run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
       - name: Build Prises
-        uses: ashutoshvarma/action-cmake-build@master
-        with:
-          build-dir: ${{github.workspace}}/prises/build
-          source-dir: ${{github.workspace}}/prises
-          cc: cl
-          cxx: cl
-          configure-options: -G Ninja
-          build-type: Release
+        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
 
       - name: Create snapshot
         working-directory: ${{github.workspace}}/prises/build
@@ -68,35 +60,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Dependencies
-    - name: Install dependency
-      run: |
-        sudo apt update
-        sudo apt install -y libsdl2-dev libboost-dev libfreetype6-dev zlib1g-dev libpugixml-dev
+      # Dependencies
+      - name: Install dependency
+        run: |
+          sudo apt update
+          sudo apt install -y libsdl2-dev libboost-dev libfreetype6-dev zlib1g-dev libpugixml-dev
 
-    # gf build
-    - uses: actions/checkout@v2
-      with:
-        repository: GamedevFramework/gf
-        submodules: recursive
-        path: gf
+      # gf build
+      - uses: actions/checkout@v2
+        with:
+          repository: GamedevFramework/gf
+          submodules: recursive
+          path: gf
 
-    - name: Configure gf
-      run: cmake -DGF_BUILD_GAMES=OFF -DGF_BUILD_EXAMPLES=OFF -DGF_BUILD_DOCUMENTATION=OFF -DGF_SINGLE_COMPILTATION_UNIT=OFF -DGF_DEBUG=OFF -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/gf/build/install -S \${{github.workspace}}/gf/ -B ${{github.workspace}}/gf/build
+      - name: Configure gf
+        run: cmake -DGF_BUILD_GAMES=OFF -DGF_BUILD_EXAMPLES=OFF -DGF_BUILD_DOCUMENTATION=OFF -DGF_SINGLE_COMPILTATION_UNIT=OFF -DGF_DEBUG=OFF -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/gf/build/install -S \${{github.workspace}}/gf/ -B ${{github.workspace}}/gf/build
 
-    - name: Build gf
-      run: cmake --build ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --parallel
+      - name: Build gf
+        run: cmake --build ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --parallel
 
-    - name: Install gf
-      run: cmake --install ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --strip
+      - name: Install gf
+        run: cmake --install ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --strip
 
-    # Prises build
-    - uses: actions/checkout@v2
-      with:
-        path: prises
+      # Prises build
+      - uses: actions/checkout@v2
+        with:
+          path: prises
 
-    - name: Configure Prises
-      run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/gf/build/install
+      - name: Configure Prises
+        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/gf/build/install
 
-    - name: Build Prises
-      run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+      - name: Build Prises
+        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
