@@ -48,7 +48,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: prises-snapshot
-          path: ${{github.workspace}}/gf/build/*.zip
+          path: ${{github.workspace}}/prises/build/*.zip
           if-no-files-found: error
 
   build-linux:
