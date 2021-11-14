@@ -45,6 +45,10 @@ jobs:
       - name: Build Prises
         run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
 
+      - name: Create snapshot
+        working-dir: ${{github.workspace}}/prises/build
+        run: cpack -C CPackConfig.cmake
+
       - uses: actions/upload-artifact@v2
         with:
           name: prises-snapshot
