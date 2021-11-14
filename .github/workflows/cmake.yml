@@ -12,6 +12,8 @@ env:
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      CMAKE_GENERATOR: Ninja
 
     steps:
       # Install gf via vcpkg
@@ -33,6 +35,27 @@ jobs:
         run: |
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gamedev-framework:x64-windows
+
+      # Install Ninja
+      - name: Clone Ninja
+        uses: actions/checkout@v2
+        with:
+          repository: ninja-build/ninja
+          path: ninja
+
+      - name: ninja cache
+        id: cache-ninja
+        uses: actions/cache@v2.1.6
+        with:
+          path: ninja
+          key: ${{ runner.os }}-ninja
+
+      - name: Build ninja
+        if: steps.cache-ninja.outputs.cache-hit != 'true'
+        working-directory: ${{github.workspace}}/ninja
+        run: |
+          cmake -S ${{github.workspace}}/ninja -B ${{github.workspace}}/ninja/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+          cmake --build ${{github.workspace}}/ninja/build --config ${{env.BUILD_TYPE}} --parallel
 
       # Prises build
       - uses: actions/checkout@v2
