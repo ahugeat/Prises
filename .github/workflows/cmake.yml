@@ -62,26 +62,26 @@ jobs:
             )
           endif()
 
-        # Prises build
-        - uses: actions/checkout@v2
-          with:
-            path: prises
+      # Prises build
+      - uses: actions/checkout@v2
+        with:
+          path: prises
 
-        - name: Configure Prises
-          run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -G Ninja -DCMAKE_MAKE_PROGRAM=${{github.workspace}}/ninja/ninja.exe -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      - name: Configure Prises
+        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -G Ninja -DCMAKE_MAKE_PROGRAM=${{github.workspace}}/ninja/ninja.exe -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
-        - name: Build Prises
-          run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+      - name: Build Prises
+        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
 
-        - name: Create snapshot
-          working-directory: ${{github.workspace}}/prises/build
-          run: cpack -C CPackConfig.cmake
+      - name: Create snapshot
+        working-directory: ${{github.workspace}}/prises/build
+        run: cpack -C CPackConfig.cmake
 
-        - uses: actions/upload-artifact@v2
-          with:
-            name: prises-snapshot
-            path: ${{github.workspace}}/prises/build/*.zip
-            if-no-files-found: error
+      - uses: actions/upload-artifact@v2
+        with:
+          name: prises-snapshot
+          path: ${{github.workspace}}/prises/build/*.zip
+          if-no-files-found: error
 
   build-linux:
     runs-on: ubuntu-latest
