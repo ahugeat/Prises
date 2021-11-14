@@ -46,9 +46,9 @@ jobs:
 
       - name: Build Prises
         uses: ashutoshvarma/action-cmake-build@master
+        working-directory: ${{github.workspace}}/prises
         with:
           build-dir: ${{github.workspace}}/prises/build
-          src-dir: ${{github.workspace}}/prises
           cc: cl
           cxx: cl
           configure-options: -G Ninja
