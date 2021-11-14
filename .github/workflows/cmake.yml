@@ -44,13 +44,14 @@ jobs:
         with:
           path: prises
 
-      - name: Build with CMake
+      - name: Build Prises
         uses: ashutoshvarma/action-cmake-build@master
         with:
           build-dir: ${{github.workspace}}/prises/build
+          src-dir: ${{github.workspace}}/prises
           cc: cl
           cxx: cl
-          configure-options: -G Ninja -S ${{github.workspace}}/prises -B ${{github.workspace}}/prises/build
+          configure-options: -G Ninja
           build-type: Release
 
       - name: Create snapshot
