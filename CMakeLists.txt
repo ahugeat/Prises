@@ -38,12 +38,15 @@ set_target_properties(game-flo
 if(NOT MSVC)
   target_compile_options(game-flo
     PRIVATE
-    $<$<CONFIG:DEBUG>:"-Wall";"-Wextra";"-g";"-fsanitize=address,undefined">
+    $<$<CONFIG:DEBUG>:-Wall>
+    $<$<CONFIG:DEBUG>:-Wextra>
+    $<$<CONFIG:DEBUG>:-g>
+    $<$<CONFIG:DEBUG>:-fsanitize=address,undefined>
   )
 
-  set_target_properties(game-flo
-    PROPERTIES
-      LINK_FLAGS $<$<CONFIG:DEBUG>:"-fsanitize=address,undefined">
+  target_link_options(game-flo
+    PRIVATE
+      $<$<CONFIG:DEBUG>:-fsanitize=address,undefined>
   )
 endif()
 
