@@ -12,8 +12,6 @@ env:
 jobs:
   build-windows:
     runs-on: windows-latest
-    env:
-      CMAKE_GENERATOR: Ninja
 
     steps:
       # Install gf via vcpkg
@@ -36,47 +34,54 @@ jobs:
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gamedev-framework:x64-windows
 
-      # Install Ninja
-      - name: Clone Ninja
-        uses: actions/checkout@v2
-        with:
-          repository: ninja-build/ninja
-          path: ninja
-
-      - name: ninja cache
-        id: cache-ninja
-        uses: actions/cache@v2.1.6
-        with:
-          path: ninja
-          key: ${{ runner.os }}-ninja
-
-      - name: Build ninja
-        if: steps.cache-ninja.outputs.cache-hit != 'true'
+      # Install Ninja from https://cristianadam.eu/20191222/using-github-actions-with-c-plus-plus-and-cmake/
+      - name: Download Ninja and CMake
+        id: cmake_and_ninja
         working-directory: ${{github.workspace}}/ninja
+        shell: cmake -P {0}
         run: |
-          cmake -S ${{github.workspace}}/ninja -B ${{github.workspace}}/ninja/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-          cmake --build ${{github.workspace}}/ninja/build --config ${{env.BUILD_TYPE}} --parallel
+          set(ninja_version "1.10.2")
 
-      # Prises build
-      - uses: actions/checkout@v2
-        with:
-          path: prises
+          message(STATUS "Using host CMake version: ${CMAKE_VERSION}")
 
-      - name: Configure Prises
-        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+          if ("${ { runner.os } }" STREQUAL "Windows")
+            set(ninja_suffix "win.zip")
+          elseif ("${ { runner.os } }" STREQUAL "Linux")
+            set(ninja_suffix "linux.zip")
+          elseif ("${ { runner.os } }" STREQUAL "macOS")
+            set(ninja_suffix "mac.zip")
+          endif()
 
-      - name: Build Prises
-        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+          set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
+          file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
+          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
 
-      - name: Create snapshot
-        working-directory: ${{github.workspace}}/prises/build
-        run: cpack -C CPackConfig.cmake
+          if (NOT "${ { runner.os } }" STREQUAL "Windows")
+            execute_process(
+              COMMAND chmod +x ninja
+            )
+          endif()
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: prises-snapshot
-          path: ${{github.workspace}}/prises/build/*.zip
-          if-no-files-found: error
+        # Prises build
+        - uses: actions/checkout@v2
+          with:
+            path: prises
+
+        - name: Configure Prises
+          run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -G Ninja -DCMAKE_MAKE_PROGRAM=${{github.workspace}}/ninja/ninja.exe -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+        - name: Build Prises
+          run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+
+        - name: Create snapshot
+          working-directory: ${{github.workspace}}/prises/build
+          run: cpack -C CPackConfig.cmake
+
+        - uses: actions/upload-artifact@v2
+          with:
+            name: prises-snapshot
+            path: ${{github.workspace}}/prises/build/*.zip
+            if-no-files-found: error
 
   build-linux:
     runs-on: ubuntu-latest
