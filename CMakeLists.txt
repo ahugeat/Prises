@@ -35,66 +35,52 @@ set_target_properties(game-flo
     CXX_EXTENSIONS OFF
 )
 
-include(GNUInstallDirs)
+if(NOT MSVC)
+  target_compile_options(game-flo
+    PRIVATE
+    $<$<CONFIG:DEBUG>:"-Wall";"-Wextra";"-g";"-fsanitize=address,undefined">
+  )
 
-set(GAME_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/games/game-flo")
-set(GAME_SOURCE_DATA_DIR "./share/game-flo")
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-  set(GAME_SOURCE_DATA_DIR "${CMAKE_SOURCE_DIR}/data/game-flo") # To avoid to doing make install
-
-  if(NOT MSVC)
-    target_compile_options(game-flo
-      PRIVATE
-      "-Wall" "-Wextra" "-g" "-fsanitize=address,undefined"
-    )
-
-    set_target_properties(game-flo
-      PROPERTIES
-        LINK_FLAGS "-fsanitize=address,undefined"
-    )
-  endif()
+  set_target_properties(game-flo
+    PROPERTIES
+      LINK_FLAGS $<$<CONFIG:DEBUG>:"-fsanitize=address,undefined">
+  )
 endif()
 
+include(GNUInstallDirs)
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
 
-# Install rules
-if(NOT WIN32)
-  set(RUNTIME_DIR ${CMAKE_INSTALL_BINDIR})
-else()
-  set(RUNTIME_DIR .)
-endif()
-
-# Install executable
-install(TARGETS game-flo DESTINATION ${RUNTIME_DIR})
-
-# Install DLL (under windows only)
 if (WIN32)
-  if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/SDL2d.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/brotlicommon.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/brotlidec.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/bz2d.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/freetyped.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/gf0.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/gfcore0.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/libpng16d.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/pugixml_d.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/zlibd1.dll)
-  else()
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/SDL2.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/brotlicommon.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/brotlidec.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/bz2.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/freetype.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/gf0.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/gfcore0.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/libpng16.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/pugixml.dll)
-    list(APPEND DLL_FILES ${CMAKE_BINARY_DIR}/zlib1.dll)
-  endif()
+  install(
+    FILES
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/SDL2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/brotlicommon.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/brotlidec.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/bz2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/freetyped.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/gf0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/gfcore0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/libpng16d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/pugixml_d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/zlibd1.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/game-flo.pdb>
 
-  install(FILES ${DLL_FILES} DESTINATION ${RUNTIME_DIR})
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/SDL2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/brotlicommon.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/brotlidec.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/bz2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/freetype.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/gf0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/gfcore0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/libpng16.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/pugixml.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/zlib1.dll>
+    DESTINATION .
+  )
+
+  install(TARGETS game-flo DESTINATION .)
+else ()
+  install(TARGETS game-flo RUNTIME)
 endif ()
 
 # Install data
