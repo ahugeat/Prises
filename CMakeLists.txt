@@ -42,15 +42,17 @@ set(GAME_SOURCE_DATA_DIR ".")
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   set(GAME_SOURCE_DATA_DIR "${CMAKE_SOURCE_DIR}/data/game-flo") # To avoid to doing make install
 
-  target_compile_options(game-flo
-    PRIVATE
-    "-Wall" "-Wextra" "-g" "-fsanitize=address,undefined"
-  )
+  if(NOT MSVC)
+    target_compile_options(game-flo
+      PRIVATE
+      "-Wall" "-Wextra" "-g" "-fsanitize=address,undefined"
+    )
 
-  set_target_properties(game-flo
-    PROPERTIES
-      LINK_FLAGS "-fsanitize=address,undefined"
-  )
+    set_target_properties(game-flo
+      PROPERTIES
+        LINK_FLAGS "-fsanitize=address,undefined"
+    )
+  endif()
 endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
