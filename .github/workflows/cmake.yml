@@ -45,6 +45,12 @@ jobs:
       - name: Build Prises
         run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: prises-snapshot
+          path: ${{github.workspace}}/gf/build/*.zip
+          if-no-files-found: error
+
   build-linux:
     runs-on: ubuntu-latest
 
@@ -70,12 +76,6 @@ jobs:
 
     - name: Install gf
       run: cmake --install ${{github.workspace}}/gf/build --config ${{env.BUILD_TYPE}} --strip
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: prises-snapshot
-        path: ${{github.workspace}}/gf/build/*.zip
-        if-no-files-found: error
 
     # Prises build
     - uses: actions/checkout@v2
