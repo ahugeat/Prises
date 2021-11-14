@@ -48,7 +48,7 @@ jobs:
 
       - name: Create snapshot
         working-directory: ${{github.workspace}}/prises/build
-        run: cpack -C CPackConfig.cmake
+        run: cpack --config CPackConfig.cmake -C ${{env.BUILD_TYPE}}
 
       - uses: actions/upload-artifact@v2
         with:
