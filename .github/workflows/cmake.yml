@@ -14,25 +14,9 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Install ninja
-      - name: ninja cache
-        id: cache-ninja
-        uses: actions/cache@v2.1.6
-        with:
-          path: ninja
-          key: ${{ runner.os }}-ninja
-
-      - uses: actions/checkout@v2
-        if: steps.cache-ninja.outputs.cache-hit != 'true'
-        with:
-          repository: ninja-build/ninja
-          path: ninja
-
-      - name: Build ninja
-        if: steps.cache-ninja.outputs.cache-hit != 'true'
-        run: |
-          cmake -S ${{github.workspace}}/ninja -B ${{github.workspace}}/ninja/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-          cmake --build ${{github.workspace}}/ninja/build --config ${{env.BUILD_TYPE}} --parallel
+      # Setup ninja
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
 
       # Install gf via vcpkg
       - name: vcpkg cache
@@ -60,14 +44,14 @@ jobs:
         with:
           path: prises
 
-      - name: Configure Prises
-        run: cmake -S ${{github.workspace}}/prises/ -B ${{github.workspace}}/prises/build -G Ninja -DCMAKE_MAKE_PROGRAM=${{github.workspace}}/ninja/build/${{env.BUILD_TYPE}}/ninja -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake
-        env:
-          CC: cl
-          CXX: cl
-
-      - name: Build Prises
-        run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
+      - name: Build with CMake
+        uses: ashutoshvarma/action-cmake-build@master
+        with:
+          build-dir: ${{github.workspace}}/prises/build
+          cc: cl
+          cxx: cl
+          configure-options: -G Ninja -S ${{github.workspace}}/prises -B ${{github.workspace}}/prises/build
+          build-type: Release
 
       - name: Create snapshot
         working-directory: ${{github.workspace}}/prises/build
