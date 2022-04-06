@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define GAME_DATA_DIR "@CMAKE_INSTALL_PREFIX@/share/games/game-flo", "@CMAKE_SOURCE_DIR@/data/game-flo", "./share/game-flo"
+#define GAME_DATA_DIR "@GAME_DATA_DIR@"
+#define GAME_RELATIVE_DATA_DIR "@GAME_RELATIVE_DATA_DIR@"
 
 #endif // CONFIG_H
