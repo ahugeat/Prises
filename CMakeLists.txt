@@ -4,7 +4,7 @@ project(GameFlo VERSION 0.1 LANGUAGES CXX)
 
 find_package(gf COMPONENTS graphics REQUIRED)
 
-add_executable(game-flo
+add_executable(prises
   src/local/GameHub.cc
   src/local/GameModel.cc
   src/local/LevelScene.cc
@@ -15,28 +15,28 @@ add_executable(game-flo
   src/main.cc
 )
 
-target_include_directories(game-flo
+target_include_directories(prises
   PRIVATE
     ${CMAKE_SOURCE_DIR}/code
     ${CMAKE_BINARY_DIR}
 )
 
-target_link_libraries(game-flo
+target_link_libraries(prises
   gf::graphics
 )
 
-target_compile_features(game-flo
+target_compile_features(prises
   PUBLIC
     cxx_std_14
 )
 
-set_target_properties(game-flo
+set_target_properties(prises
   PROPERTIES
     CXX_EXTENSIONS OFF
 )
 
 if(NOT MSVC)
-  target_compile_options(game-flo
+  target_compile_options(prises
     PRIVATE
     $<$<CONFIG:DEBUG>:-Wall>
     $<$<CONFIG:DEBUG>:-Wextra>
@@ -44,7 +44,7 @@ if(NOT MSVC)
     $<$<CONFIG:DEBUG>:-fsanitize=address,undefined>
   )
 
-  target_link_options(game-flo
+  target_link_options(prises
     PRIVATE
       $<$<CONFIG:DEBUG>:-fsanitize=address,undefined>
   )
@@ -66,7 +66,7 @@ if (WIN32)
       $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/libpng16d.dll>
       $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/pugixml_d.dll>
       $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/zlibd1.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/game-flo.pdb>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/prises.pdb>
 
       $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/SDL2.dll>
       $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/brotlicommon.dll>
@@ -81,13 +81,13 @@ if (WIN32)
     DESTINATION .
   )
 
-  install(TARGETS game-flo DESTINATION .)
+  install(TARGETS prises DESTINATION .)
 else ()
-  install(TARGETS game-flo RUNTIME)
+  install(TARGETS prises RUNTIME)
 endif ()
 
 # Install data
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/data/game-flo DESTINATION ${CMAKE_INSTALL_DATADIR})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/data/prises DESTINATION ${CMAKE_INSTALL_DATADIR})
 
 # Package rules
 if (WIN32)
