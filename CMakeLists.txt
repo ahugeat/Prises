@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18...3.21)
 
-project(GameFlo VERSION 0.1 LANGUAGES CXX)
+project(Prises VERSION 0.1 LANGUAGES CXX)
 
 find_package(gf COMPONENTS graphics REQUIRED)
 
@@ -50,7 +50,7 @@ if(NOT MSVC)
   )
 endif()
 
-include(GNUInstallDirs) 
+include(GNUInstallDirs)
 set(GAME_DATA_DIR "${CMAKE_INSTALL_FULL_DATAROOTDIR}/games" CACHE PATH "Game Data Dir")
 set(GAME_RELATIVE_DATA_DIR "./share/prises" CACHE STRING "Game Relative Data Dir")
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
