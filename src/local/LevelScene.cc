@@ -5,7 +5,7 @@
 #include "GameHub.h"
 #include "GameModel.h"
 
-namespace flo {
+namespace pr {
   LevelScene::LevelScene(GameHub& game)
   : gf::Scene(game.model.getCurrentLevel().size * GameModel::TileSize)
   , m_game(game)

@@ -2,7 +2,7 @@
 
 #include "config.h"
 
-namespace flo {
+namespace pr {
   GameHub::GameHub()
   : gf::GameManager("Game Flo", { GAME_RELATIVE_DATA_DIR, GAME_DATA_DIR })
   , menu(*this)

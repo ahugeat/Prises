@@ -2,7 +2,7 @@
 
 #include "GameHub.h"
 
-namespace flo {
+namespace pr {
   MenuScene::MenuScene(GameHub& game)
   : gf::Scene(game.getRenderer().getSize())
   , m_game(game)

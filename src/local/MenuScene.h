@@ -5,7 +5,7 @@
 
 #include "MenuEntity.h"
 
-namespace flo {
+namespace pr {
   struct GameHub;
 
   class MenuScene: public gf::Scene {

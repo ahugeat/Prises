@@ -7,7 +7,7 @@
 #include "LevelScene.h"
 #include "MenuScene.h"
 
-namespace flo {
+namespace pr {
   struct GameHub : gf::GameManager {
     GameHub();
 

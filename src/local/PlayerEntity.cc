@@ -12,7 +12,7 @@ namespace {
   constexpr float PlayerVelocity = 500.0f;
 }
 
-namespace flo {
+namespace pr {
   PlayerEntity::PlayerEntity(GameModel& model)
   : m_model(model)
   , m_position(model.getCurrentLevel().size * GameModel::TileSize / 2)

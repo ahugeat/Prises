@@ -3,7 +3,7 @@
 #include <gf/Coordinates.h>
 #include <gf/RenderTarget.h>
 
-namespace flo {
+namespace pr {
   MenuEntity::MenuEntity(gf::ResourceManager& resources, MenuChoice& choice)
   : m_font(resources.getFont("LiberationSans-Regular.ttf"))
   , m_startWidget("Start", m_font)

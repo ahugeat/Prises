@@ -3,7 +3,7 @@
 
 #include <gf/Entity.h>
 
-namespace flo {
+namespace pr {
   struct GameModel;
 
   class MapEntity: public gf::Entity {

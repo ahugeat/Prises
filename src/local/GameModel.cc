@@ -3,7 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 
-namespace flo {
+namespace pr {
   LevelModel::LevelModel(std::initializer_list<std::string> tilesList)
   : size(gf::vec(tilesList.begin()->size(), tilesList.size())) {
     assert(size.row < size.col);

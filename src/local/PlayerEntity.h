@@ -5,7 +5,7 @@
 #include <gf/Entity.h>
 #include <gf/Vector.h>
 
-namespace flo {
+namespace pr {
   struct GameModel;
 
   class PlayerEntity: public gf::Entity {

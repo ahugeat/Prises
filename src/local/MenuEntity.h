@@ -7,7 +7,7 @@
 #include <gf/WidgetContainer.h>
 #include <gf/Widgets.h>
 
-namespace flo {
+namespace pr {
   enum class MenuChoice {
     None,
     Start,

@@ -7,7 +7,7 @@
 #include <gf/Vector.h>
 #include <gf/VectorOps.h>
 
-namespace flo {
+namespace pr {
   enum class TileType: char{
     Wall = '#',
     Empty = ' ',

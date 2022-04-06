@@ -6,7 +6,7 @@
 
 #include "GameModel.h"
 
-namespace flo {
+namespace pr {
   MapEntity::MapEntity(GameModel& model)
   : m_model(model) {
 

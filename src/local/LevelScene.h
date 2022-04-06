@@ -7,7 +7,7 @@
 #include "MapEntity.h"
 #include "PlayerEntity.h"
 
-namespace flo {
+namespace pr {
   struct GameHub;
 
   class LevelScene: public gf::Scene {
