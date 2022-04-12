@@ -7,7 +7,7 @@
 
 namespace pr {
   LevelScene::LevelScene(GameHub& game)
-  : gf::Scene(gf::vec(0, 0))
+  : gf::Scene(game.getRenderer().getSize())
   , m_game(game)
   , m_moveUp("Move up")
   , m_moveDown("Move down")
@@ -58,8 +58,6 @@ namespace pr {
 
   void LevelScene::loadLevel() {
     const auto& level = m_game.data.getCurrentLevel();
-
-    setFramebufferSize(level.levelSize * GameData::TileSize);
 
     // Update views
     gf::Vector2f viewSize = level.levelSize * GameData::TileSize;
