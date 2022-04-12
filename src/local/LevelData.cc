@@ -69,6 +69,10 @@ namespace pr {
               assert(0 <= gid && gid <= 27);
               m_data.walls(gf::vec(i, j)) = static_cast<WallType>(gid);
               break;
+
+            case LayerName::Floors:
+              // nothing to do
+              break;
           }
         }
       }
