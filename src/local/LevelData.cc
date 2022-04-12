@@ -11,11 +11,14 @@ namespace pr {
 
     enum LayerName {
       Walls,
+      Floors,
     };
 
     LayerName toLayerName(const std::string& name) {
       if (name == "walls") {
         return LayerName::Walls;
+      } else if (name == "floors") {
+        return LayerName::Floors;
       }
 
       gf::Log::debug("Unknown layer: %s\n", name.c_str());
