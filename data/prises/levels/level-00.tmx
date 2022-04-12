@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.4" orientation="staggered" renderorder="right-down" width="5" height="10" tilewidth="256" tileheight="128" infinite="0" staggeraxis="y" staggerindex="odd" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" name="walls" tilewidth="256" tileheight="512" tilecount="32" columns="8">
-  <image source="walls.png" width="2048" height="2048"/>
- </tileset>
- <tileset firstgid="33" name="walls" tilewidth="256" tileheight="512" tilecount="128" columns="8">
-  <image source="walls.png" width="2048" height="2048"/>
+ <tileset firstgid="1" name="walls" tilewidth="256" tileheight="512" tilecount="128" columns="8">
+  <image source="../tilesets/walls.png" width="2048" height="2048"/>
  </tileset>
  <layer id="1" name="walls" width="5" height="10">
   <data encoding="csv">
