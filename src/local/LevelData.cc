@@ -40,6 +40,7 @@ namespace pr {
         }
 
         m_data.layers.emplace_back(gf::makeTileLayer(map, layer, m_resources));
+        m_data.layers.back().setTilesetSmooth();
         auto name = toLayerName(layer.name);
 
         int k = 0;
