@@ -7,6 +7,8 @@
 
 namespace pr {
   namespace {
+    constexpr gf::Vector2i MaxLayerSize = gf::vec(128, 128);
+
     enum LayerName {
       Walls,
     };
@@ -74,12 +76,14 @@ namespace pr {
   }
 
   LevelData::LevelData()
-  : walls(gf::vec(20,20), WallType::None)
+  : walls(MaxLayerSize, WallType::None)
   {
   }
 
   LevelData LevelData::makeFromTmx(gf::ResourceManager& resources, const gf::TmxLayers& tmx) {
     LevelData data;
+
+    data.levelSize = tmx.mapSize;
 
     LayersDataMaker maker(resources, data);
     tmx.visitLayers(maker);

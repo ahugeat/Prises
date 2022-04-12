@@ -17,7 +17,7 @@ namespace pr {
   private:
     virtual void doHandleActions(gf::Window& window) override;
 
-    void loadNextLevel();
+    void loadLevel();
 
   private:
     GameHub& m_game;

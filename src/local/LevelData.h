@@ -54,6 +54,8 @@ namespace pr {
     LevelData& operator=(const LevelData&) = delete;
     LevelData& operator=(LevelData&&) = default;
 
+    gf::Vector2i levelSize;
+
     gf::Array2D<WallType, int> walls;
     std::vector<gf::TileLayer> layers;
 

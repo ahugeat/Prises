@@ -7,7 +7,7 @@
 
 namespace pr {
   LevelScene::LevelScene(GameHub& game)
-  : gf::Scene(game.data.getCurrentLevel().walls.getSize() * GameData::TileSize)
+  : gf::Scene(gf::vec(0, 0))
   , m_game(game)
   , m_moveUp("Move up")
   , m_moveDown("Move down")
@@ -33,10 +33,10 @@ namespace pr {
     registerMoveAction(m_moveLeft, { gf::Scancode::A, gf::Scancode::Left });
     registerMoveAction(m_moveRight, { gf::Scancode::D, gf::Scancode::Right });
 
-    // Views
-    gf::Vector2f viewSize = game.data.getCurrentLevel().walls.getSize() * GameData::TileSize;
-    setWorldViewSize(viewSize);
-    setWorldViewCenter(viewSize / 2);
+    setClearColor(gf::Color::Black);
+
+    // Load first level (TODO: remove this when the menu will be added)
+    loadLevel();
   }
 
   void LevelScene::doHandleActions(gf::Window& window) {
@@ -56,10 +56,14 @@ namespace pr {
     }
   }
 
-  void LevelScene::loadNextLevel() {
-    ++m_game.data.currentLevel;
+  void LevelScene::loadLevel() {
     const auto& level = m_game.data.getCurrentLevel();
 
-    setFramebufferSize(level.walls.getSize() * GameData::TileSize);
+    setFramebufferSize(level.levelSize * GameData::TileSize);
+
+    // Update views
+    gf::Vector2f viewSize = level.levelSize * GameData::TileSize;
+    setWorldViewSize(viewSize);
+    setWorldViewCenter(viewSize * 0.5f);
   }
 }
