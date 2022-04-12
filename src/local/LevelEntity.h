@@ -4,16 +4,16 @@
 #include <gf/Entity.h>
 
 namespace pr {
-  struct GameModel;
+  struct GameData;
 
   class LevelEntity: public gf::Entity {
   public:
-    LevelEntity(GameModel& model);
+    LevelEntity(GameData& model);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
   private:
-    GameModel& m_model;
+    GameData& m_model;
   };
 }
 

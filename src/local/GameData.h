@@ -1,5 +1,5 @@
-#ifndef LOCAL_GAME_MODEL_H_
-#define LOCAL_GAME_MODEL_H_
+#ifndef LOCAL_GAME_DATA_H_
+#define LOCAL_GAME_DATA_H_
 
 #include <vector>
 
@@ -11,12 +11,12 @@
 #include "LevelData.h"
 
 namespace pr {
-  struct GameModel {
+  struct GameData {
     static constexpr gf::Vector2i TileSize = gf::vec(128, 128);
     static constexpr gf::Vector2i WorldSize = gf::vec(1024, 1024) * TileSize;
     static constexpr gf::Vector2i PlayerSize = TileSize / 2;
 
-    GameModel(gf::ResourceManager& ressources);
+    GameData(gf::ResourceManager& ressources);
 
     LevelData& getCurrentLevel();
 
@@ -25,4 +25,4 @@ namespace pr {
   };
 }
 
-#endif // LOCAL_GAME_MODEL_H_
+#endif // LOCAL_GAME_DATA_H_

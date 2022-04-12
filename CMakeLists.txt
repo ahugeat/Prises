@@ -6,7 +6,7 @@ find_package(gf COMPONENTS graphics REQUIRED)
 
 add_executable(prises
   src/local/GameHub.cc
-  src/local/GameModel.cc
+  src/local/GameData.cc
   src/local/LevelScene.cc
   src/local/LevelData.cc
   src/local/LevelEntity.cc

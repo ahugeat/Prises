@@ -3,7 +3,7 @@
 
 #include <gf/GameManager.h>
 
-#include "GameModel.h"
+#include "GameData.h"
 #include "LevelScene.h"
 #include "MenuScene.h"
 
@@ -11,7 +11,7 @@ namespace pr {
   struct GameHub : gf::GameManager {
     GameHub();
 
-    GameModel model;
+    GameData data;
 
     MenuScene menu;
     LevelScene level;

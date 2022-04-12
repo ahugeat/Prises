@@ -4,10 +4,10 @@
 #include <gf/Shapes.h>
 #include <gf/SpriteBatch.h>
 
-#include "GameModel.h"
+#include "GameData.h"
 
 namespace pr {
-  LevelEntity::LevelEntity(GameModel& model)
+  LevelEntity::LevelEntity(GameData& model)
   : m_model(model) {
 
   }

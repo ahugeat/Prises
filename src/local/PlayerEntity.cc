@@ -6,14 +6,14 @@
 #include <gf/Shapes.h>
 #include <gf/VectorOps.h>
 
-#include "GameModel.h"
+#include "GameData.h"
 
 namespace {
   constexpr float PlayerVelocity = 500.0f;
 }
 
 namespace pr {
-  PlayerEntity::PlayerEntity(GameModel& model)
+  PlayerEntity::PlayerEntity(GameData& model)
   : m_model(model)
   , m_position(0.0f, 0.0f)
   , m_direction(0.0f) {
@@ -31,10 +31,10 @@ namespace pr {
     // for (int row = 0; row < currentLevel.size.row; ++row) {
     //   for (int col = 0; col < currentLevel.size.col; ++col) {
     //     // Get the player hitbox
-    //     gf::RectF playerHitbox = gf::RectF::fromCenterSize(nextPosition, GameModel::PlayerSize);
+    //     gf::RectF playerHitbox = gf::RectF::fromCenterSize(nextPosition, GameData::PlayerSize);
 
     //     // Get the wall hitbox
-    //     gf::RectF tileHitbox = gf::RectF::fromPositionSize(gf::vec(col, row) * GameModel::TileSize, GameModel::TileSize);
+    //     gf::RectF tileHitbox = gf::RectF::fromPositionSize(gf::vec(col, row) * GameData::TileSize, GameData::TileSize);
     //     TileType tile = currentLevel.tileAt(col, row);
 
     //     gf::Penetration p;
@@ -54,7 +54,7 @@ namespace pr {
 
   void PlayerEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
     // gf::RectangleShape player;
-    // player.setSize(GameModel::PlayerSize);
+    // player.setSize(GameData::PlayerSize);
     // player.setColor(gf::Color::Blue);
     // player.setAnchor(gf::Anchor::Center);
     // player.setPosition(m_position);

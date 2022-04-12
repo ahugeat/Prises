@@ -3,18 +3,18 @@
 #include <gf/Direction.h>
 
 #include "GameHub.h"
-#include "GameModel.h"
+#include "GameData.h"
 
 namespace pr {
   LevelScene::LevelScene(GameHub& game)
-  : gf::Scene(game.model.getCurrentLevel().walls.getSize() * GameModel::TileSize)
+  : gf::Scene(game.data.getCurrentLevel().walls.getSize() * GameData::TileSize)
   , m_game(game)
   , m_moveUp("Move up")
   , m_moveDown("Move down")
   , m_moveLeft("Move left")
   , m_moveRight("Move right")
-  , m_map(game.model)
-  , m_player(game.model) {
+  , m_map(game.data)
+  , m_player(game.data) {
     // Entities
     addWorldEntity(m_map);
     addWorldEntity(m_player);
@@ -34,7 +34,7 @@ namespace pr {
     registerMoveAction(m_moveRight, { gf::Scancode::D, gf::Scancode::Right });
 
     // Views
-    gf::Vector2f viewSize = game.model.getCurrentLevel().walls.getSize() * GameModel::TileSize;
+    gf::Vector2f viewSize = game.data.getCurrentLevel().walls.getSize() * GameData::TileSize;
     setWorldViewSize(viewSize);
     setWorldViewCenter(viewSize / 2);
   }
@@ -57,9 +57,9 @@ namespace pr {
   }
 
   void LevelScene::loadNextLevel() {
-    ++m_game.model.currentLevel;
-    const auto& level = m_game.model.getCurrentLevel();
+    ++m_game.data.currentLevel;
+    const auto& level = m_game.data.getCurrentLevel();
 
-    setFramebufferSize(level.walls.getSize() * GameModel::TileSize);
+    setFramebufferSize(level.walls.getSize() * GameData::TileSize);
   }
 }
