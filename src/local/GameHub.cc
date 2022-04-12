@@ -4,7 +4,7 @@
 
 namespace pr {
   GameHub::GameHub()
-  : gf::GameManager("Game Flo", { GAME_RELATIVE_DATA_DIR, GAME_DATA_DIR })
+  : gf::GameManager("Prises", { GAME_RELATIVE_DATA_DIR, GAME_DATA_DIR })
   , model(resources)
   , menu(*this)
   , level(*this) {
