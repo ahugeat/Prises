@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.4" orientation="staggered" renderorder="right-down" width="5" height="10" tilewidth="256" tileheight="128" infinite="0" staggeraxis="y" staggerindex="odd" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="walls" tilewidth="256" tileheight="512" tilecount="32" columns="8">
+  <image source="walls.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="33" name="walls" tilewidth="256" tileheight="512" tilecount="128" columns="8">
+  <image source="walls.png" width="2048" height="2048"/>
+ </tileset>
+ <layer id="1" name="walls" width="5" height="10">
+  <data encoding="csv">
+0,0,7,0,0,
+0,9,3,0,0,
+0,1,0,11,0,
+9,0,0,3,0,
+5,0,0,0,20,
+10,0,0,12,0,
+0,10,0,12,0,
+0,10,12,0,0,
+0,0,22,0,0,
+0,0,0,0,0
+</data>
+ </layer>
+</map>

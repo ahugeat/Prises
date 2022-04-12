@@ -8,7 +8,8 @@ add_executable(prises
   src/local/GameHub.cc
   src/local/GameModel.cc
   src/local/LevelScene.cc
-  src/local/MapEntity.cc
+  src/local/LevelData.cc
+  src/local/LevelEntity.cc
   src/local/MenuEntity.cc
   src/local/MenuScene.cc
   src/local/PlayerEntity.cc

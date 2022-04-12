@@ -4,39 +4,18 @@
 #include <stdexcept>
 
 namespace pr {
-  LevelModel::LevelModel(std::initializer_list<std::string> tilesList)
-  : size(gf::vec(tilesList.begin()->size(), tilesList.size())) {
-    assert(size.row < size.col);
+  GameModel::GameModel(gf::ResourceManager& resources) {
+    for (auto & path : { "levels/level-00.tmx" }) {
+      gf::TmxLayers tmx;
+      tmx.loadFromFile(resources.getAbsolutePath(path));
 
-    for (const auto& row: tilesList) {
-      for (std::size_t i = 0; i < row.size(); ++i) {
-        tiles.push_back(static_cast<TileType>(row[i]));
-      }
+      levels.push_back(LevelData::makeFromTmx(resources, tmx));
     }
-
-    assert(static_cast<int>(tiles.size()) == size.row * size.col);
   }
 
-  const TileType& LevelModel::tileAt(int col, int row) const {
-    return tiles.at(row * size.col + col);
-  }
-
-  GameModel::GameModel() {
-    currentLevel = 0;
-    levels = {
-      {
-        "##########",
-        "#        #",
-        "#  #     #",
-        "#        #",
-        "##########",
-      }
-    };
-  }
-
-  const LevelModel& GameModel::getCurrentLevel() const {
+  LevelData& GameModel::getCurrentLevel() {
     if (currentLevel < 0 || currentLevel >= static_cast<int>(levels.size())) {
-      throw std::runtime_error("[LevelModel] invalid level: " + std::to_string(currentLevel));
+      throw std::runtime_error("[GameModel] invalid level: " + std::to_string(currentLevel));
     }
 
     return levels[currentLevel];

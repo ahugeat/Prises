@@ -4,7 +4,7 @@
 #include <gf/Action.h>
 #include <gf/Scene.h>
 
-#include "MapEntity.h"
+#include "LevelEntity.h"
 #include "PlayerEntity.h"
 
 namespace pr {
@@ -27,7 +27,7 @@ namespace pr {
     gf::Action m_moveLeft;
     gf::Action m_moveRight;
 
-    MapEntity m_map;
+    LevelEntity m_map;
     PlayerEntity m_player;
   };
 }

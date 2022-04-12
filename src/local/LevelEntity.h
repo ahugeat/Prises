@@ -6,9 +6,9 @@
 namespace pr {
   struct GameModel;
 
-  class MapEntity: public gf::Entity {
+  class LevelEntity: public gf::Entity {
   public:
-    MapEntity(GameModel& model);
+    LevelEntity(GameModel& model);
 
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 

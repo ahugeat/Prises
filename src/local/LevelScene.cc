@@ -7,7 +7,7 @@
 
 namespace pr {
   LevelScene::LevelScene(GameHub& game)
-  : gf::Scene(game.model.getCurrentLevel().size * GameModel::TileSize)
+  : gf::Scene(game.model.getCurrentLevel().walls.getSize() * GameModel::TileSize)
   , m_game(game)
   , m_moveUp("Move up")
   , m_moveDown("Move down")
@@ -34,7 +34,7 @@ namespace pr {
     registerMoveAction(m_moveRight, { gf::Scancode::D, gf::Scancode::Right });
 
     // Views
-    gf::Vector2f viewSize = game.model.getCurrentLevel().size * GameModel::TileSize;
+    gf::Vector2f viewSize = game.model.getCurrentLevel().walls.getSize() * GameModel::TileSize;
     setWorldViewSize(viewSize);
     setWorldViewCenter(viewSize / 2);
   }
@@ -58,8 +58,8 @@ namespace pr {
 
   void LevelScene::loadNextLevel() {
     ++m_game.model.currentLevel;
-    auto level = m_game.model.getCurrentLevel();
+    const auto& level = m_game.model.getCurrentLevel();
 
-    setFramebufferSize(level.size * GameModel::TileSize);
+    setFramebufferSize(level.walls.getSize() * GameModel::TileSize);
   }
 }
