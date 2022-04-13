@@ -1,9 +1,10 @@
-#ifndef FLO_GAME_HUB_H
-#define FLO_GAME_HUB_H
+#ifndef LOCAL_GAME_HUB_H
+#define LOCAL_GAME_HUB_H
 
 #include <gf/GameManager.h>
 
 #include "GameData.h"
+#include "GameState.h"
 #include "LevelScene.h"
 #include "MenuScene.h"
 
@@ -12,10 +13,11 @@ namespace pr {
     GameHub();
 
     GameData data;
+    GameState state;
 
     MenuScene menu;
     LevelScene level;
   };
 }
 
-#endif // FLO_GAME_HUB_H
+#endif // LOCAL_GAME_HUB_H

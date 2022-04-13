@@ -1,5 +1,5 @@
-#ifndef FLO_MENU_SCENE_H_
-#define FLO_MENU_SCENE_H_
+#ifndef LOCAL_MENU_SCENE_H_
+#define LOCAL_MENU_SCENE_H_
 
 #include <gf/Scene.h>
 
@@ -25,4 +25,4 @@ namespace pr {
   };
 }
 
-#endif // FLO_MENU_SCENE_H_
+#endif // LOCAL_MENU_SCENE_H_
