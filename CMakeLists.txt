@@ -3,8 +3,12 @@ cmake_minimum_required(VERSION 3.18...3.21)
 project(Prises VERSION 0.1 LANGUAGES CXX)
 
 find_package(gf COMPONENTS graphics REQUIRED)
+find_package(box2d REQUIRED)
 
 add_executable(prises
+  src/vendor/gf-box2d/gfb2d/PhysicsModel.cc
+  src/vendor/gf-box2d/gfb2d/PhysicsDebugger.cc
+
   src/local/GameHub.cc
   src/local/GameData.cc
   src/local/LevelScene.cc
@@ -13,17 +17,20 @@ add_executable(prises
   src/local/MenuEntity.cc
   src/local/MenuScene.cc
   src/local/PlayerEntity.cc
+  src/local/PhysicsState.cc
   src/main.cc
 )
 
 target_include_directories(prises
   PRIVATE
-    ${CMAKE_SOURCE_DIR}/code
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/vendor/gf-box2d
     ${CMAKE_BINARY_DIR}
 )
 
 target_link_libraries(prises
   gf::graphics
+  box2d::box2d
 )
 
 target_compile_features(prises
