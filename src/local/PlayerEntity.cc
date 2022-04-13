@@ -15,50 +15,50 @@ namespace {
 namespace pr {
   PlayerEntity::PlayerEntity(GameData& model)
   : m_model(model)
-  , m_position(0.0f, 0.0f)
+  , m_position(gf::vec(3, 5) * GameData::TileSize)
   , m_direction(0.0f) {
 
   }
 
   void PlayerEntity::update(gf::Time time) {
-    // // Compute the next position
-    // gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
+    // Compute the next position
+    gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
 
-    // const LevelData& currentLevel = m_model.getCurrentLevel();
+    const LevelData& currentLevel = m_model.getCurrentLevel();
 
-    // // Check collision with all tiles
-    // // TODO: inefficient, just checks tiles around
-    // for (int row = 0; row < currentLevel.size.row; ++row) {
-    //   for (int col = 0; col < currentLevel.size.col; ++col) {
-    //     // Get the player hitbox
-    //     gf::RectF playerHitbox = gf::RectF::fromCenterSize(nextPosition, GameData::PlayerSize);
+    // Check collision with all tiles
+    // TODO: inefficient, just checks tiles around
+    for (int row = 0; row < currentLevel.levelSize.row; ++row) {
+      for (int col = 0; col < currentLevel.levelSize.col; ++col) {
+        // Get the player hitbox
+        gf::RectF playerHitbox = gf::RectF::fromCenterSize(nextPosition, GameData::PlayerSize);
 
-    //     // Get the wall hitbox
-    //     gf::RectF tileHitbox = gf::RectF::fromPositionSize(gf::vec(col, row) * GameData::TileSize, GameData::TileSize);
-    //     TileType tile = currentLevel.tileAt(col, row);
+        // Get the wall hitbox
+        gf::RectF tileHitbox = gf::RectF::fromPositionSize(gf::vec(col, row) * GameData::TileSize, GameData::TileSize);
+        WallType tile = currentLevel.walls(gf::vec(col, row));
 
-    //     gf::Penetration p;
-    //     if (tile == TileType::Wall && gf::collides(tileHitbox, playerHitbox, p)) {
-    //       // Clamp the player position
-    //       nextPosition += p.normal * p.depth;
-    //     }
-    //   }
-    // }
+        gf::Penetration p;
+        if (tile != WallType::None && gf::collides(tileHitbox, playerHitbox, p)) {
+          // Clamp the player position
+          nextPosition += p.normal * p.depth;
+        }
+      }
+    }
 
-    // // Move the player
-    // m_position = nextPosition;
+    // Move the player
+    m_position = nextPosition;
 
-    // // Reset direction
-    // m_direction = gf::vec(0.0f, 0.0f);
+    // Reset direction
+    m_direction = gf::vec(0.0f, 0.0f);
   }
 
   void PlayerEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    // gf::RectangleShape player;
-    // player.setSize(GameData::PlayerSize);
-    // player.setColor(gf::Color::Blue);
-    // player.setAnchor(gf::Anchor::Center);
-    // player.setPosition(m_position);
-    // target.draw(player, states);
+    gf::RectangleShape player;
+    player.setSize(GameData::PlayerSize);
+    player.setColor(gf::Color::Blue);
+    player.setAnchor(gf::Anchor::Center);
+    player.setPosition(m_position);
+    target.draw(player, states);
   }
 
   void PlayerEntity::move(gf::Direction direction) {

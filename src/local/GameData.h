@@ -13,8 +13,7 @@
 namespace pr {
   struct GameData {
     static constexpr gf::Vector2i TileSize = gf::vec(256, 128);
-    static constexpr gf::Vector2i WorldSize = gf::vec(1024, 1024) * TileSize;
-    static constexpr gf::Vector2i PlayerSize = TileSize / 2;
+    static constexpr gf::Vector2i PlayerSize = gf::vec(128, 128);
 
     GameData(gf::ResourceManager& ressources);
 
