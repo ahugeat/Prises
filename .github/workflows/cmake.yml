@@ -33,6 +33,7 @@ jobs:
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         working-directory: ${{github.workspace}}/vcpkg
         run: |
+          echo %VCPKG_ROOT%
           dir
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install brotli:x64-windows --debug
