@@ -13,6 +13,9 @@ jobs:
   build-windows:
     runs-on: windows-latest
 
+    env:
+      VCPKG_ROOT: ${{github.workspace}}/vcpkg
+
     steps:
       # Install gf via vcpkg
       - name: vcpkg cache
