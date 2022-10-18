@@ -20,12 +20,13 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: vcpkg
-          key: ${{ runner.os }}-vcpkg
+          key: ${{ runner.os }}-vcpkg-2022.09.27
 
       - uses: actions/checkout@v2
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         with:
           repository: Microsoft/vcpkg
+          ref: 2022.09.27
           path: vcpkg
 
       - name: Build gf
@@ -33,7 +34,7 @@ jobs:
         working-directory: ${{github.workspace}}/vcpkg
         run: |
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install gamedev-framework:x64-windows
+          .\vcpkg.exe install gamedev-framework:x64-windows box2d:x64-windows
 
       # Prises build
       - uses: actions/checkout@v2
@@ -72,7 +73,7 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: gf
-          key: ${{ runner.os }}-gf
+          key: ${{ runner.os }}-gf-1.0.0
 
       - uses: actions/checkout@v2
         if: steps.cache-gf.outputs.cache-hit != 'true'
@@ -80,6 +81,12 @@ jobs:
           repository: GamedevFramework/gf
           submodules: recursive
           path: gf
+
+      - name: Patch SDL2 dependencies
+        if: steps.cache-gf.outputs.cache-hit != 'true'
+        run: |
+          cat ${{github.workspace}}/gf/library/CMakeLists.txt | sed 's/SDL2::SDL2/\$\{SDL2_LIBRARIES\}/' | tee ${{github.workspace}}/gf/library/CMakeLists.txt > /dev/null
+          echo 'include_directories(SYSTEM ${SDL2_INCLUDE_DIRS})' >> ${{github.workspace}}/gf/library/CMakeLists.txt
 
       - name: Configure gf
         if: steps.cache-gf.outputs.cache-hit != 'true'
