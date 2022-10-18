@@ -33,6 +33,7 @@ jobs:
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         working-directory: ${{github.workspace}}/vcpkg
         run: |
+          dir
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gamedev-framework:x64-windows box2d:x64-windows
           dir
