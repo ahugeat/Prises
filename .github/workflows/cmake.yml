@@ -36,13 +36,8 @@ jobs:
         if: steps.cache-vcpkg.outputs.cache-hit != 'true'
         working-directory: ${{github.workspace}}/vcpkg
         run: |
-          echo %VCPKG_ROOT%
-          dir env:
-          $env:VCPKG_ROOT
-          dir
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install brotli:x64-windows --debug
-          dir
+          .\vcpkg.exe install gamedev-framework:x64-windows box2d:x64-windows
 
       # Prises build
       - uses: actions/checkout@v2
