@@ -35,7 +35,7 @@ jobs:
         run: |
           dir
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install gamedev-framework:x64-windows box2d:x64-windows
+          .\vcpkg.exe install brotli:x64-windows --debug
           dir
 
       # Prises build
