@@ -34,6 +34,8 @@ jobs:
         working-directory: ${{github.workspace}}/vcpkg
         run: |
           echo %VCPKG_ROOT%
+          dir env:
+          $env:VCPKG_ROOT
           dir
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install brotli:x64-windows --debug
