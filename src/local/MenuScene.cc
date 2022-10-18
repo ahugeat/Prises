@@ -27,13 +27,10 @@ namespace pr {
     }
   }
 
-  void MenuScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
+  void MenuScene::doHandleActions([[maybe_unused]] gf::Window& window) {
   }
 
-  void MenuScene::doUpdate(gf::Time time) {
-    gf::unused(time);
-
+  void MenuScene::doUpdate([[maybe_unused]] gf::Time time) {
     switch (m_choice) {
       case MenuChoice::None:
         break;

@@ -39,9 +39,7 @@ namespace pr {
     loadLevel();
   }
 
-  void LevelScene::doHandleActions(gf::Window& window) {
-    gf::unused(window);
-
+  void LevelScene::doHandleActions([[maybe_unused]] gf::Window& window) {
     if (m_moveUp.isActive()) {
       m_player.move(gf::Direction::Up);
     }
