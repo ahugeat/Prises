@@ -116,7 +116,7 @@ jobs:
       - name: Build Prises
         run: cmake --build ${{github.workspace}}/prises/build --config ${{env.BUILD_TYPE}} --parallel
 
-  build-windows:
+  build-macos:
     runs-on: macos-12
 
     env:
