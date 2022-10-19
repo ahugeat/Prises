@@ -55,7 +55,7 @@ jobs:
         working-directory: ${{github.workspace}}/prises/build
         run: cpack --config CPackConfig.cmake -C ${{env.BUILD_TYPE}}
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: prises-snapshot
           path: ${{github.workspace}}/prises/build/*.zip
