@@ -143,7 +143,7 @@ jobs:
         working-directory: ${{github.workspace}}/vcpkg
         run: |
           ./bootstrap-vcpkg.sh
-          ./vcpkg install gamedev-framework:x64-windows box2d:x64-windows
+          ./vcpkg install gamedev-framework:x64-osx box2d:x64-osx
 
       # Prises build
       - uses: actions/checkout@v3
