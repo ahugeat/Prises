@@ -14,10 +14,14 @@ namespace pr {
   , m_moveLeft("Move left")
   , m_moveRight("Move right")
   , m_map(game.data)
-  , m_player(game.data) {
+  , m_player(game)
+  , m_b2Debug(game.state.physics.engine) {
     // Entities
     addWorldEntity(m_map);
     addWorldEntity(m_player);
+    addWorldEntity(m_b2Debug);
+
+    m_b2Debug.setDebug(true);
 
     // Actions
     auto registerMoveAction = [this](gf::Action& action, std::initializer_list<gf::Scancode> scancodes) {
@@ -52,6 +56,10 @@ namespace pr {
     if (m_moveRight.isActive()) {
       m_player.move(gf::Direction::Right);
     }
+  }
+
+  void LevelScene::doUpdate(gf::Time time) {
+    m_game.state.physics.engine.update(time);
   }
 
   void LevelScene::loadLevel() {

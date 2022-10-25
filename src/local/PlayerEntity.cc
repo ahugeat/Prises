@@ -6,44 +6,24 @@
 #include <gf/Shapes.h>
 #include <gf/VectorOps.h>
 
-#include "GameData.h"
+#include "GameHub.h"
 
 namespace {
   constexpr float PlayerVelocity = 500.0f;
 }
 
 namespace pr {
-  PlayerEntity::PlayerEntity(GameData& model)
-  : m_model(model)
+  PlayerEntity::PlayerEntity(GameHub& hub)
+  : m_model(hub.data)
   , m_position(gf::vec(3, 5) * GameData::TileSize)
-  , m_direction(0.0f) {
+  , m_direction(0.0f)
+  , m_body(hub.state.physics.createPlayerBody(m_position, 0.0f)) {
 
   }
 
   void PlayerEntity::update(gf::Time time) {
     // Compute the next position
     gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
-
-    const LevelData& currentLevel = m_model.getCurrentLevel();
-
-    // Check collision with all tiles
-    // TODO: inefficient, just checks tiles around
-    for (int row = 0; row < currentLevel.levelSize.row; ++row) {
-      for (int col = 0; col < currentLevel.levelSize.col; ++col) {
-        // Get the player hitbox
-        gf::RectF playerHitbox = gf::RectF::fromCenterSize(nextPosition, GameData::PlayerSize);
-
-        // Get the wall hitbox
-        gf::RectF tileHitbox = gf::RectF::fromPositionSize(gf::vec(col, row) * GameData::TileSize, GameData::TileSize);
-        WallType tile = currentLevel.walls(gf::vec(col, row));
-
-        gf::Penetration p;
-        if (tile != WallType::None && gf::collides(tileHitbox, playerHitbox, p)) {
-          // Clamp the player position
-          nextPosition += p.normal * p.depth;
-        }
-      }
-    }
 
     // Move the player
     m_position = nextPosition;

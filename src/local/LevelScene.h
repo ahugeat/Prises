@@ -4,6 +4,8 @@
 #include <gf/Action.h>
 #include <gf/Scene.h>
 
+#include "vendor/gf-box2d/gfb2d/PhysicsDebugger.h"
+
 #include "LevelEntity.h"
 #include "PlayerEntity.h"
 
@@ -16,6 +18,7 @@ namespace pr {
 
   private:
     virtual void doHandleActions(gf::Window& window) override;
+    virtual void doUpdate(gf::Time time) override;
 
     void loadLevel();
 
@@ -29,6 +32,8 @@ namespace pr {
 
     LevelEntity m_map;
     PlayerEntity m_player;
+
+    gfb2d::PhysicsDebugger m_b2Debug;
   };
 }
 

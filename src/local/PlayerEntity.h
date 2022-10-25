@@ -5,12 +5,15 @@
 #include <gf/Entity.h>
 #include <gf/Vector.h>
 
+#include <box2d/b2_body.h>
+
 namespace pr {
   struct GameData;
+  struct GameHub;
 
   class PlayerEntity: public gf::Entity {
   public:
-    PlayerEntity(GameData& model);
+    PlayerEntity(GameHub& hub);
 
     virtual void update(gf::Time time) override;
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
@@ -22,6 +25,8 @@ namespace pr {
 
     gf::Vector2f m_position;
     gf::Vector2f m_direction;
+
+    b2Body* m_body;
   };
 }
 

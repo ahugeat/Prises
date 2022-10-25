@@ -7,6 +7,8 @@ namespace pr {
   struct PhysicsState {
     PhysicsState();
 
+    b2Body* createPlayerBody(const gf::Vector2f& location, float angle);
+
     gfb2d::PhysicsModel engine;
   };
 }
