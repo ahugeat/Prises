@@ -7,13 +7,14 @@
 
 #include <box2d/b2_body.h>
 
+#include "vendor/gf-box2d/gfb2d/PhysicsModel.h"
+
 namespace pr {
-  struct GameData;
-  struct GameHub;
+  class PhysicsState;
 
   class PlayerEntity: public gf::Entity {
   public:
-    PlayerEntity(GameHub& hub);
+    PlayerEntity(PhysicsState& physics);
 
     virtual void update(gf::Time time) override;
     virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
@@ -21,7 +22,7 @@ namespace pr {
     void move(gf::Direction direction);
 
   private:
-    GameData& m_model;
+    const gfb2d::PhysicsModel& m_physicsEngine;
 
     gf::Vector2f m_position;
     gf::Vector2f m_direction;

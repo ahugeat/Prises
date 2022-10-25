@@ -1,29 +1,32 @@
 #include "PlayerEntity.h"
 
-#include <gf/Collision.h>
-#include <gf/Log.h>
 #include <gf/RenderTarget.h>
 #include <gf/Shapes.h>
 #include <gf/VectorOps.h>
 
 #include "GameHub.h"
+#include "PhysicsState.h"
 
 namespace {
   constexpr float PlayerVelocity = 500.0f;
 }
 
 namespace pr {
-  PlayerEntity::PlayerEntity(GameHub& hub)
-  : m_model(hub.data)
+  PlayerEntity::PlayerEntity(PhysicsState& physics)
+  : m_physicsEngine(physics.engine)
   , m_position(gf::vec(3, 5) * GameData::TileSize)
   , m_direction(0.0f)
-  , m_body(hub.state.physics.createPlayerBody(m_position, 0.0f)) {
+  , m_body(physics.createPlayerBody(m_position, 0.0f)) {
 
   }
 
   void PlayerEntity::update(gf::Time time) {
     // Compute the next position
     gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
+
+    // Update physics
+    b2Vec2 vel = m_physicsEngine.computeGameToPhysicsCoordinates(nextPosition);
+    m_body->SetTransform(vel, 0.0f);
 
     // Move the player
     m_position = nextPosition;

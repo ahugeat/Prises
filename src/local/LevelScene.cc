@@ -14,7 +14,7 @@ namespace pr {
   , m_moveLeft("Move left")
   , m_moveRight("Move right")
   , m_map(game.data)
-  , m_player(game)
+  , m_player(game.state.physics)
   , m_b2Debug(game.state.physics.engine) {
     // Entities
     addWorldEntity(m_map);
