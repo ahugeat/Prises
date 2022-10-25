@@ -16,7 +16,7 @@ namespace pr {
   : m_physicsEngine(physics.engine)
   , m_position(gf::vec(3, 5) * GameData::TileSize)
   , m_direction(0.0f)
-  , m_body(physics.createPlayerBody(m_position, 0.0f)) {
+  , m_body(physics.createPlayerBody(m_position)) {
 
   }
 
