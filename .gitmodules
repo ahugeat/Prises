@@ -1,3 +1,6 @@
 [submodule "src/vendor/gf-box2d"]
 	path = src/vendor/gf-box2d
 	url = https://github.com/GamedevFramework/gf-box2d
+[submodule "src/vendor/gf"]
+	path = src/vendor/gf
+	url = https://github.com/GamedevFramework/gf.git

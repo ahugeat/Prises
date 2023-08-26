@@ -1,8 +1,34 @@
-cmake_minimum_required(VERSION 3.18...3.21)
+cmake_minimum_required(VERSION 3.18...3.27)
 
 project(Prises VERSION 0.1 LANGUAGES CXX)
 
-find_package(gf COMPONENTS graphics REQUIRED)
+find_package(Git)
+
+find_package(gf COMPONENTS graphics QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+  # Update submodules as needed
+  option(GIT_SUBMODULE "Check submodules during build" ON)
+  if(GIT_SUBMODULE)
+      message(STATUS "Submodule update")
+      execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                      RESULT_VARIABLE GIT_SUBMOD_RESULT)
+      if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+          message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+      endif()
+
+      # Override gf options
+      set(BUILD_TESTING OFF CACHE BOOL "Build tests")
+      set(GF_DEBUG OFF CACHE BOOL "Activate debug build")
+      set(GF_BUILD_EXAMPLES OFF CACHE BOOL "Build examples")
+      set(GF_BUILD_DOCUMENTATION OFF CACHE BOOL "Build documentation (needs Doxygen)")
+      set(GF_BUILD_GAMES OFF CACHE BOOL "Build games")
+
+      add_subdirectory(src/vendor/gf)
+      add_library(gf::graphics ALIAS gf0)
+  endif()
+endif()
+
 find_package(box2d REQUIRED)
 
 add_executable(prises
