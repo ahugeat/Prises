@@ -24,7 +24,7 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
       set(GF_BUILD_DOCUMENTATION OFF CACHE BOOL "Build documentation (needs Doxygen)")
       set(GF_BUILD_GAMES OFF CACHE BOOL "Build games")
 
-      add_subdirectory(src/vendor/gf)
+      add_subdirectory(src/vendor/gf EXCLUDE_FROM_ALL)
       add_library(gf::graphics ALIAS gf0)
   endif()
 endif()
@@ -90,6 +90,33 @@ set(GAME_RELATIVE_DATA_DIR "./share/prises" CACHE STRING "Game Relative Data Dir
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_BINARY_DIR}/config.h @ONLY)
 
 if (WIN32)
+  install(
+    FILES
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/SDL2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/brotlicommon.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/brotlidec.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/bz2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/freetyped.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/gf0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/gfcore0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/libpng16d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/pugixml.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/zlibd1.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/prises.pdb>
+
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/SDL2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/brotlicommon.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/brotlidec.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/bz2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/freetype.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/gf0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/gfcore0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/libpng16.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/pugixml.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/zlib1.dll>
+    DESTINATION .
+  )
+
   install(TARGETS prises DESTINATION .)
 else ()
   install(TARGETS prises RUNTIME)
