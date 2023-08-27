@@ -1,8 +1,34 @@
-cmake_minimum_required(VERSION 3.18...3.21)
+cmake_minimum_required(VERSION 3.18...3.27)
 
 project(Prises VERSION 0.1 LANGUAGES CXX)
 
-find_package(gf COMPONENTS graphics REQUIRED)
+find_package(Git)
+
+find_package(gf COMPONENTS graphics QUIET)
+if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+  # Update submodules as needed
+  option(GIT_SUBMODULE "Check submodules during build" ON)
+  if(GIT_SUBMODULE)
+      message(STATUS "Submodule update")
+      execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+                      RESULT_VARIABLE GIT_SUBMOD_RESULT)
+      if(NOT GIT_SUBMOD_RESULT EQUAL "0")
+          message(FATAL_ERROR "git submodule update --init --recursive failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+      endif()
+
+      # Override gf options
+      set(BUILD_TESTING OFF CACHE BOOL "Build tests")
+      set(GF_DEBUG OFF CACHE BOOL "Activate debug build")
+      set(GF_BUILD_EXAMPLES OFF CACHE BOOL "Build examples")
+      set(GF_BUILD_DOCUMENTATION OFF CACHE BOOL "Build documentation (needs Doxygen)")
+      set(GF_BUILD_GAMES OFF CACHE BOOL "Build games")
+
+      add_subdirectory(src/vendor/gf EXCLUDE_FROM_ALL)
+      add_library(gf::graphics ALIAS gf0)
+  endif()
+endif()
+
 find_package(box2d REQUIRED)
 
 add_executable(prises
@@ -66,28 +92,28 @@ configure_file(${CMAKE_SOURCE_DIR}/src/config.h.in ${CMAKE_BINARY_DIR}/config.h 
 if (WIN32)
   install(
     FILES
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/SDL2d.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/brotlicommon.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/brotlidec.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/bz2d.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/freetyped.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/gf0.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/gfcore0.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/libpng16d.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/pugixml_d.dll>
-      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/zlibd1.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/SDL2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/brotlicommon.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/brotlidec.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/bz2d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/freetyped.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/gf0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/gfcore0.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/libpng16d.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/pugixml.dll>
+      $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Debug/zlibd1.dll>
       $<$<CONFIG:DEBUG>:${CMAKE_BINARY_DIR}/Debug/prises.pdb>
 
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/SDL2.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/brotlicommon.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/brotlidec.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/bz2.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/freetype.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/gf0.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/gfcore0.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/libpng16.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/pugixml.dll>
-      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/Release/zlib1.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/SDL2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/brotlicommon.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/brotlidec.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/bz2.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/freetype.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/gf0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/gfcore0.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/libpng16.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/pugixml.dll>
+      $<$<CONFIG:RELEASE>:${CMAKE_BINARY_DIR}/src/vendor/gf/library/Release/zlib1.dll>
     DESTINATION .
   )
 
