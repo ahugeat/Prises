@@ -21,4 +21,17 @@ namespace pr {
 
     return body;
   }
+
+  b2Body* PhysicsState::createWallBody(const gf::Polygon& bounds, const gf::Vector2f& offset) {
+    auto body = engine.createSimpleBody(bounds.getCenter() + offset, 0.0f, gfb2d::BodyType::Static);
+
+    gf::Polygon fixtureBounds;
+    for(const auto& point : bounds) {
+      fixtureBounds.addPoint(point - bounds.getCenter());
+    }
+    engine.createPolygonFixture(body, fixtureBounds);
+
+    return body;
+  }
+
 }
