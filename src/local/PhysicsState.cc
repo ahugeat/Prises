@@ -15,9 +15,9 @@ namespace pr {
 
   }
 
-  b2Body *PhysicsState::createPlayerBody(const gf::Vector2f& position) {
+  b2Body *PhysicsState::createPlayerBody(const gf::Vector2f& position, float radius) {
     auto body = engine.createSimpleBody(position, 0.0f, gfb2d::BodyType::Dynamic);
-    engine.createCircleFixture(body, GameData::PlayerSize.width * 0.5f);
+    engine.createCircleFixture(body, radius);
 
     return body;
   }

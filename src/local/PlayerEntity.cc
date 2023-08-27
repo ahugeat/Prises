@@ -8,14 +8,18 @@
 #include "PhysicsState.h"
 
 namespace {
-  constexpr float PlayerVelocity = 500.0f;
+  static constexpr float PlayerVelocity = 500.0f;
+  static constexpr float PlayerHitboxRaduis = pr::GameData::TileSize.x / 16.0f;
+
+  // FIXME: Handle this on level loading
+  static constexpr gf::Vector2i InitialPlayerPosition = gf::vec(3, 5);
 }
 
 namespace pr {
   PlayerEntity::PlayerEntity(PhysicsState& physics)
   : m_physicsEngine(physics.engine)
   , m_direction(0.0f)
-  , m_body(physics.createPlayerBody(gf::vec(3, 5) * GameData::TileSize)) {
+  , m_body(physics.createPlayerBody(InitialPlayerPosition * GameData::TileSize, PlayerHitboxRaduis)) {
 
   }
 
@@ -29,12 +33,13 @@ namespace pr {
   }
 
   void PlayerEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-    const gf::Vector2f currentPosition = m_physicsEngine.computePhysicsToGameCoordinates(m_body->GetPosition());
+    gf::Vector2f currentPosition = m_physicsEngine.computePhysicsToGameCoordinates(m_body->GetPosition());
+    currentPosition.y += PlayerHitboxRaduis;
 
     gf::RectangleShape player;
     player.setSize(GameData::PlayerSize);
     player.setColor(gf::Color::Blue);
-    player.setAnchor(gf::Anchor::Center);
+    player.setAnchor(gf::Anchor::BottomCenter);
     player.setPosition(currentPosition);
     target.draw(player, states);
   }
