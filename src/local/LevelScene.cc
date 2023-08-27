@@ -218,6 +218,8 @@ namespace pr {
 
     // Load first level (TODO: remove this when the menu will be added)
     loadLevel();
+
+    addModel(game.state.physics.engine);
   }
 
   void LevelScene::doHandleActions([[maybe_unused]] gf::Window& window) {
@@ -233,10 +235,6 @@ namespace pr {
     if (m_moveRight.isActive()) {
       m_player.move(gf::Direction::Right);
     }
-  }
-
-  void LevelScene::doUpdate(gf::Time time) {
-    m_game.state.physics.engine.update(time);
   }
 
   void LevelScene::loadLevel() {

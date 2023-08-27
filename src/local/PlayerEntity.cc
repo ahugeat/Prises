@@ -14,33 +14,28 @@ namespace {
 namespace pr {
   PlayerEntity::PlayerEntity(PhysicsState& physics)
   : m_physicsEngine(physics.engine)
-  , m_position(gf::vec(3, 5) * GameData::TileSize)
   , m_direction(0.0f)
-  , m_body(physics.createPlayerBody(m_position)) {
+  , m_body(physics.createPlayerBody(gf::vec(3, 5) * GameData::TileSize)) {
 
   }
 
-  void PlayerEntity::update(gf::Time time) {
-    // Compute the next position
-    gf::Vector2f nextPosition = m_position + m_direction * PlayerVelocity * time.asSeconds();
-
+  void PlayerEntity::update([[maybe_unused]] gf::Time time) {
     // Update physics
-    b2Vec2 vel = m_physicsEngine.computeGameToPhysicsCoordinates(nextPosition);
-    m_body->SetTransform(vel, 0.0f);
-
-    // Move the player
-    m_position = nextPosition;
+    const gf::Vector2f impulse = m_direction * PlayerVelocity;
+    m_body->SetLinearVelocity(m_physicsEngine.computeGameToPhysicsCoordinates(impulse));
 
     // Reset direction
     m_direction = gf::vec(0.0f, 0.0f);
   }
 
   void PlayerEntity::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+    const gf::Vector2f currentPosition = m_physicsEngine.computePhysicsToGameCoordinates(m_body->GetPosition());
+
     gf::RectangleShape player;
     player.setSize(GameData::PlayerSize);
     player.setColor(gf::Color::Blue);
     player.setAnchor(gf::Anchor::Center);
-    player.setPosition(m_position);
+    player.setPosition(currentPosition);
     target.draw(player, states);
   }
 

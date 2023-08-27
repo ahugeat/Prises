@@ -24,7 +24,6 @@ namespace pr {
   private:
     const gfb2d::PhysicsModel& m_physicsEngine;
 
-    gf::Vector2f m_position;
     gf::Vector2f m_direction;
 
     b2Body* m_body;

@@ -18,7 +18,6 @@ namespace pr {
 
   private:
     virtual void doHandleActions(gf::Window& window) override;
-    virtual void doUpdate(gf::Time time) override;
 
     void loadLevel();
 
